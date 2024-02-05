@@ -1,5 +1,3 @@
-// dp1.c
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -31,7 +29,7 @@ int main(int argument_count, char *argument_vector[])
   long N = atol(argument_vector[1]);
   int num_of_rep = atoi(argument_vector[2]);
   struct timespec start, end;
-
+  
   // Allocate memory for vectors
   float *vectorA = (float *)malloc(N * sizeof(float));
   float *vectorB = (float *)malloc(N * sizeof(float));
@@ -45,13 +43,21 @@ int main(int argument_count, char *argument_vector[])
 
   // Execution time measurement
   float a = 0.0;
-  clock_gettime(CLOCK_MONOTONIC, &start);
-  for (int rep = 0; rep < num_of_rep; rep++) 
+  
+  for (int rep = 0; rep < num_of_rep/2; rep++) 
   {
     a = dp(N, vectorA, vectorB);
   }
-  printf("dot-product for reference (ignore) : %f\n", a);
+
+  clock_gettime(CLOCK_MONOTONIC, &start);
+  for (int rep = num_of_rep/2; rep < num_of_rep; rep++)
+  {
+    a = dp(N, vectorA, vectorB);
+  }
+  
   clock_gettime(CLOCK_MONOTONIC, &end);
+
+  printf("dot-product for reference (ignore) : %f\n", a);
 
   double elapsed_time = (end.tv_sec - start.tv_sec) + ((end.tv_nsec - start.tv_nsec) * 1e-9);
   double mean_time = elapsed_time / num_of_rep / 2;

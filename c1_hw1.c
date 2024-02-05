@@ -50,7 +50,7 @@ int main(int argument_count, char *argument_vector[])
   {
     a = dp(N, vectorA, vectorB);
   }
-  printf("dot-product : %f\n", a);
+  printf("dot-product for reference (ignore) : %f\n", a);
   clock_gettime(CLOCK_MONOTONIC, &end);
 
   double elapsed_time = (end.tv_sec - start.tv_sec) + ((end.tv_nsec - start.tv_nsec) * 1e-9);

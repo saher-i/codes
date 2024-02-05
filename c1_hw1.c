@@ -56,7 +56,7 @@ int main(int argument_count, char *argument_vector[])
 
   // Bandwidth and throughput calculation
   double bandwidth = (2 * N * sizeof(float) * num_of_rep) / (mean_time * 1e9);
-  double throughput = (2 * N * num_of_rep) / (mean_time * 1e9);
+  double throughput = (2 * N * num_of_rep) / (mean_time);
 
   // Results
   printf("N: %ld ", N);

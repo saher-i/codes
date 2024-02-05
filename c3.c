@@ -44,13 +44,13 @@ int main(int argument_count, char *argument_vector[])
 
   for (int rep = 0; rep < num_of_rep/2; rep++)
   {
-    a = dp(N, vectorA, vectorB);
+    a = bdp(N, vectorA, vectorB);
   }
 
   clock_gettime(CLOCK_MONOTONIC, &start);
   for (int rep = num_of_rep/2; rep < num_of_rep; rep++)
   {
-    a = dp(N, vectorA, vectorB);
+    a = bdp(N, vectorA, vectorB);
   }
 
   clock_gettime(CLOCK_MONOTONIC, &end);

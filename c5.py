@@ -17,10 +17,10 @@ def benchmark(N, repetitions):
     exec_time = []
 
     for _ in tqdm.tqdm(range(0, repetitions//2)):
-        dp(A, B)
+        np.dot(A, B)
     for _ in tqdm.tqdm(range(repetitions//2, repetitions)):
         start_time = time.monotonic_ns()
-        dp(A, B)
+        np.dot(A, B)
         end_time = time.monotonic_ns()
         exec_time.append(end_time - start_time)
 

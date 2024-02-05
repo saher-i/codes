@@ -44,14 +44,16 @@ int main(int argument_count, char *argument_vector[])
   }
 
   // Execution time measurement
+  float a = 0.0;
   clock_gettime(CLOCK_MONOTONIC, &start);
   for (int rep = 0; rep < num_of_rep; rep++) 
   {
-    dp(N, vectorA, vectorB);
+    a = dp(N, vectorA, vectorB);
   }
+  printf("dot-product : %f\n", a);
   clock_gettime(CLOCK_MONOTONIC, &end);
 
-  double elapsed_time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
+  double elapsed_time = (end.tv_sec - start.tv_sec) + ((end.tv_nsec - start.tv_nsec) * 1e-9);
   double mean_time = elapsed_time / num_of_rep / 2;
 
   // Bandwidth and throughput calculation
@@ -63,6 +65,7 @@ int main(int argument_count, char *argument_vector[])
   printf("<T>: %e seconds ", mean_time);
   printf("B: %e GB/sec ", bandwidth);
   printf("F: %e FLOP/sec ", throughput);
+  printf("\n");
 
   // Free allocated memory
   free(vectorA);

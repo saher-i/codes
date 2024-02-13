@@ -5,7 +5,7 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import argparse
 from hpmlc1 import BasicBlock, ResNet
-import tqdm from tqdm
+from tqdm import tqdm
 
 def ResNet18():
     return ResNet(BasicBlock, [2, 2, 2, 2])

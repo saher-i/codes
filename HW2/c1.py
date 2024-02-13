@@ -94,23 +94,67 @@ w are you today Pranshu what year was the cold oh optimizer Siemens pallet open 
     #             # Update tqdm postfix to display loss and accuracy
     #             tepoch.set_postfix(loss=loss.item(), accuracy=f"{accuracy:.2f}%", )
 
-    model.train()
-    for epoch in tqdm(range(1, 6)):  # run for 5 epochs
+    # model.train()
+    # for epoch in tqdm(range(1, 6)):  # run for 5 epochs
+    #     for batch_idx, (data, target) in enumerate(train_loader):
+    #         data, target = data.to(device), target.to(device)
+    #         optimizer.zero_grad()
+    #         output = model(data)
+    #         loss = criterion(output, target)
+    #         loss.backward()
+    #         optimizer.step()
+    #
+    #         pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+    #         correct = pred.eq(target.view_as(pred)).sum().item()
+    #
+    #         if batch_idx % 100 == 0:
+    #             print(f'Epoch {epoch} [{batch_idx * len(data)}/{len(train_loader.dataset)} '
+    #                   f'({100. * batch_idx / len(train_loader):.0f}%)]\tLoss: {loss.item():.6f} '
+    #                   f'Accuracy: {100. * correct / len(data):.2f}%')
+    #
+    #
+    import time
+
+    for epoch in range(1, 6):  # run for 5 epochs
+        epoch_start_time = time.perf_counter()
+        
+        model.train()
+        training_time = 0  # Reset training time for each epoch
+        data_loading_time = 0  # Reset data-loading time for each epoch
+        
         for batch_idx, (data, target) in enumerate(train_loader):
+            start_data_loading_time = time.perf_counter()
+            # Simulate the end of data loading and the start of training calculation
+            end_data_loading_time = time.perf_counter()
+            data_loading_time += end_data_loading_time - start_data_loading_time
+
             data, target = data.to(device), target.to(device)
+            
+            start_training_time = time.perf_counter()
             optimizer.zero_grad()
             output = model(data)
             loss = criterion(output, target)
             loss.backward()
             optimizer.step()
+            end_training_time = time.perf_counter()
+            
+            training_time += end_training_time - start_training_time
 
-            pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+            pred = output.argmax(dim=1, keepdim=True)
             correct = pred.eq(target.view_as(pred)).sum().item()
 
             if batch_idx % 100 == 0:
                 print(f'Epoch {epoch} [{batch_idx * len(data)}/{len(train_loader.dataset)} '
-                      f'({100. * batch_idx / len(train_loader):.0f}%)]\tLoss: {loss.item():.6f} '
-                      f'Accuracy: {100. * correct / len(data):.2f}%')
+                    f'({100. * batch_idx / len(train_loader):.0f}%)]\t'
+                    f'Loss: {loss.item():.6f} '
+                    f'Accuracy: {100. * correct / len(data):.2f}%')
+
+        epoch_end_time = time.perf_counter()
+        total_epoch_time = epoch_end_time - epoch_start_time
+        print(f'Epoch {epoch} Complete: \n'
+            f'\tData-Loading Time: {data_loading_time:.2f} seconds\n'
+            f'\tTraining Time: {training_time:.2f} seconds\n'
+            f'\tTotal Epoch Time: {total_epoch_time:.2f} seconds\n')
 
 
 

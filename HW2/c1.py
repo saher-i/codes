@@ -6,13 +6,6 @@ from torch.utils.data import DataLoader
 import argparse
 from hpmlc1 import BasicBlock, ResNet
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"Using device: {device}")
-
-print()
-
-
-
 def ResNet18():
     return ResNet(BasicBlock, [2, 2, 2, 2])
 
@@ -42,6 +35,7 @@ def main():
 
     use_cuda = not args.no_cuda and torch.cuda.is_available()
     device = torch.device("cuda" if use_cuda else "cpu")
+    print("Using device : ", device)
 
     # Data loading code
     transform = transforms.Compose(
@@ -72,51 +66,52 @@ def main():
     else:
         raise ValueError("Unsupported optimizer. Use 'sgd' or 'adam'.")
 
+w are you today Pranshu what year was the cold oh optimizer Siemens pallet open hot Salome thousand 19
     criterion = nn.CrossEntropyLoss()
 
     # Training phase
     from tqdm import tqdm
 
-    model.train()
-    for epoch in range(1, 6):  # run for 5 epochs
-        with tqdm(train_loader, unit="batch") as tepoch:
-            for data, target in tepoch:
-                tepoch.set_description(f"Epoch {epoch}")
-
-                data, target = data.to(device), target.to(device)
-                optimizer.zero_grad()
-                output = model(data)
-                loss = criterion(output, target)
-                loss.backward()
-                optimizer.step()
-
-                pred = output.argmax(
-                    dim=1, keepdim=True
-                )  # get the index of the max log-probability
-                correct = pred.eq(target.view_as(pred)).sum().item()
-                accuracy = 100.0 * correct / len(data)
-
-                # Update tqdm postfix to display loss and accuracy
-                tepoch.set_postfix(loss=loss.item(), accuracy=f"{accuracy:.2f}%")
-
     # model.train()
-    # for epoch in tqdm(range(1, 6)):  # run for 5 epochs
-    #     for batch_idx, (data, target) in enumerate(train_loader):
-    #         data, target = data.to(device), target.to(device)
-    #         optimizer.zero_grad()
-    #         output = model(data)
-    #         loss = criterion(output, target)
-    #         loss.backward()
-    #         optimizer.step()
+    # for epoch in range(1, 6):  # run for 5 epochs
+    #     with tqdm(train_loader, unit="batch") as tepoch:
+    #         for data, target in tepoch:
+    #             tepoch.set_description(f"Epoch {epoch}")
     #
-    #         pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
-    #         correct = pred.eq(target.view_as(pred)).sum().item()
+    #             data, target = data.to(device), target.to(device)
+    #             optimizer.zero_grad()
+    #             output = model(data)
+    #             loss = criterion(output, target)
+    #             loss.backward()
+    #             optimizer.step()
     #
-    #         if batch_idx % 100 == 0:
-    #             print(f'Epoch {epoch} [{batch_idx * len(data)}/{len(train_loader.dataset)} '
-    #                   f'({100. * batch_idx / len(train_loader):.0f}%)]\tLoss: {loss.item():.6f} '
-    #                   f'Accuracy: {100. * correct / len(data):.2f}%')
+    #             pred = output.argmax(
+    #                 dim=1, keepdim=True
+    #             )  # get the index of the max log-probability
+    #             correct = pred.eq(target.view_as(pred)).sum().item()
+    #             accuracy = 100.0 * correct / len(data)
     #
+    #             # Update tqdm postfix to display loss and accuracy
+    #             tepoch.set_postfix(loss=loss.item(), accuracy=f"{accuracy:.2f}%", )
+
+    model.train()
+    for epoch in tqdm(range(1, 6)):  # run for 5 epochs
+        for batch_idx, (data, target) in enumerate(train_loader):
+            data, target = data.to(device), target.to(device)
+            optimizer.zero_grad()
+            output = model(data)
+            loss = criterion(output, target)
+            loss.backward()
+            optimizer.step()
+
+            pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+            correct = pred.eq(target.view_as(pred)).sum().item()
+
+            if batch_idx % 100 == 0:
+                print(f'Epoch {epoch} [{batch_idx * len(data)}/{len(train_loader.dataset)} '
+                      f'({100. * batch_idx / len(train_loader):.0f}%)]\tLoss: {loss.item():.6f} '
+                      f'Accuracy: {100. * correct / len(data):.2f}%')
+
 
 
 if __name__ == "__main__":

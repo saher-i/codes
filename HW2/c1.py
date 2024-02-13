@@ -66,7 +66,6 @@ def main():
     else:
         raise ValueError("Unsupported optimizer. Use 'sgd' or 'adam'.")
 
-w are you today Pranshu what year was the cold oh optimizer Siemens pallet open hot Salome thousand 19
     criterion = nn.CrossEntropyLoss()
 
     # Training phase

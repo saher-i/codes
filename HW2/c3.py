@@ -70,7 +70,8 @@ def main():
 
     import time
 
-    for epoch in range(1, 6):  # run for 5 epochs
+   # for epoch in range(1, 6):  # run for 5 epochs
+    for epoch in tqdm(range(1, 6)):
         epoch_start_time = time.perf_counter()
         
         model.train()

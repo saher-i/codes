@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader
 import argparse
 from torch.optim.lr_scheduler import StepLR
 from hpmlc1 import BasicBlock, ResNet
+from tqdm import tqdm
 
 def ResNet18():
     return ResNet(BasicBlock, [2, 2, 2, 2])
@@ -53,7 +54,7 @@ def main():
 
     # Training phase
     model.train()
-    for epoch in range(1, 6):  # run for 5 epochs
+    for epoch in tqdm(range(1, 6)):  # run for 5 epochs
         for batch_idx, (data, target) in enumerate(train_loader):
             data, target = data.to(device), target.to(device)
             optimizer.zero_grad()

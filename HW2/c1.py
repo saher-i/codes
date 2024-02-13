@@ -6,9 +6,11 @@ from torch.utils.data import DataLoader
 import argparse
 from hpmlc1 import BasicBlock, ResNet
 
-device = torch.device("cuda")
-print("DEVICE", device)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+
 print()
+
 
 
 def ResNet18():

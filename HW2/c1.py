@@ -5,7 +5,7 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import argparse
 from torch.optim.lr_scheduler import StepLR
-from c1 import BasicBlock, ResNet
+from hpmlc1 import BasicBlock, ResNet
 
 def ResNet18():
     return ResNet(BasicBlock, [2, 2, 2, 2])

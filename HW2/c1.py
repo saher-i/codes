@@ -8,6 +8,10 @@ from torch.optim.lr_scheduler import StepLR
 from hpmlc1 import BasicBlock, ResNet
 from tqdm import tqdm
 
+device = torch.device('cuda')
+print('DEVICE', device)
+print()
+
 def ResNet18():
     return ResNet(BasicBlock, [2, 2, 2, 2])
 

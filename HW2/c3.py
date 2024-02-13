@@ -5,6 +5,7 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import argparse
 from hpmlc1 import BasicBlock, ResNet
+import tqdm from tqdm
 
 def ResNet18():
     return ResNet(BasicBlock, [2, 2, 2, 2])
@@ -77,8 +78,9 @@ def main():
         model.train()
         training_time = 0  # Reset training time for each epoch
         data_loading_time = 0  # Reset data-loading time for each epoch
-        
-        for batch_idx, (data, target) in enumerate(train_loader):
+ 
+        for batch_idx, (data, target) in enumerate(tqdm(train_loader, desc=f"Epoch {epoch}")):
+#        for batch_idx, (data, target) in enumerate(train_loader):
             start_data_loading_time = time.perf_counter()
             # Simulate the end of data loading and the start of training calculation
             end_data_loading_time = time.perf_counter()

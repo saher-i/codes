@@ -19,7 +19,7 @@ worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
 times = []
 
 for num_workers in worker_counts:
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=128,
                                               shuffle=True, num_workers=num_workers)
     
     start_time = time.time()

@@ -59,10 +59,10 @@ def main():
         train_dataset, batch_size=128, shuffle=True, num_workers=args.num_workers
     )
 
-    if args.c == 3:
-        print("Results of Data loading time: ")
-
-        exit()
+    # if args.c == 3:
+    #   print("Results of Data loading time: ")
+    #
+    #   exit()
 
     model = ResNet18().to(device)
 

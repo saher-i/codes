@@ -2,7 +2,7 @@ import torch
 import torchvision
 import torchvision.transforms as transforms
 import time
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
 
 # Transform for the CIFAR10 data
@@ -33,16 +33,16 @@ for num_workers in worker_counts:
     print(f"Number of workers: {num_workers}, Time taken: {total_time:.2f} seconds")
 
 # Plotting
-plt.figure(figsize=(10, 6))
-plt.plot(worker_counts, times, marker='o', linestyle='-', color='b')
-plt.title('DataLoader Performance vs. Number of Workers (CIFAR10)')
-plt.xlabel('Number of Workers')
-plt.ylabel('Total Time Taken (seconds)')
-plt.xticks(worker_counts)
-plt.grid(True)
-plt.show()
+#plt.figure(figsize=(10, 6))
+#plt.plot(worker_counts, times, marker='o', linestyle='-', color='b')
+#plt.title('DataLoader Performance vs. Number of Workers (CIFAR10)')
+#plt.xlabel('Number of Workers')
+#plt.ylabel('Total Time Taken (seconds)')
+#plt.xticks(worker_counts)
+#plt.grid(True)
+#plt.show()
 
 # Find the optimal number of workers
-optimal_workers = worker_counts[np.argmin(times)]
-print(f"The optimal number of workers is: {optimal_workers}")
+#optimal_workers = worker_counts[np.argmin(times)]
+#print(f"The optimal number of workers is: {optimal_workers}")
 

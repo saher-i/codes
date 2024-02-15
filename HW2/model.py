@@ -1,31 +1,6 @@
 import torch
 import torch.nn as nn
 
-
-from torch.utils.data import DataLoader
-from torchvision import datasets, transforms
-
-# Define the sequence of transformations
-transform = transforms.Compose(
-    [
-        transforms.RandomCrop(32, padding=4),
-        transforms.RandomHorizontalFlip(p=0.5),
-        transforms.ToTensor(),
-        transforms.Normalize(
-            mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010]
-        ),
-    ]
-)
-
-# Import the CIFAR10 dataset
-train_dataset = datasets.CIFAR10(
-    root="./data", train=True, download=True, transform=transform
-)
-
-# Define the DataLoader
-train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True, num_workers=2)
-
-
 class BasicBlock(nn.Module):
     expansion = 1
 
@@ -106,14 +81,3 @@ class ResNet(nn.Module):
         out = self.fc(out)
         return out
 
-
-def resnet18():
-    return ResNet(BasicBlock, [2, 2, 2, 2])
-
-
-# Define the model
-model = resnet18()
-
-# Define the optimizer and loss function
-optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4)
-criterion = nn.CrossEntropyLoss()

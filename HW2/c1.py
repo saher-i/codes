@@ -94,10 +94,10 @@ def main():
         for batch_idx, (data, target) in enumerate(train_loader):
             
             #Added the following
-            trainloader = torch.utils.data.DataLoader(trainset, batch_size=128,shuffle=True, num_workers=num_workers) 
+            #trainloader = torch.utils.data.DataLoader(trainset, batch_size=128,shuffle=True, num_workers=num_workers) 
 
             start_data_loading_time = time.perf_counter()
-            for i, data in enumerate(trainloader, 0):
+            for i, data in enumerate(train_loader, 0):
             # Simulate processing of data
              pass
             end_data_loading_time = time.perf_counter()

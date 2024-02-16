@@ -8,6 +8,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import argparse
+import tqdm from tqdm
 from model import BasicBlock, ResNet
 
 transform = transforms.Compose([transforms.ToTensor()])

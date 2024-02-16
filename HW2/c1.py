@@ -92,7 +92,7 @@ def main():
         training_time = 0  # Reset training time for each epoch
         data_loading_time = 0  # Reset data-loading time for each epoch
 
-        for batch_idx, (data, target) in enumerate(train_loader):
+        for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
             
             #Added the following
             #trainloader = torch.utils.data.DataLoader(trainset, batch_size=128,shuffle=True, num_workers=num_workers) 
@@ -106,7 +106,7 @@ def main():
             data_loading_time = end_data_loading_time - start_data_loading_time;
             
             #Added the following
-            for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
+            for batch_idx, (data, target) in enumerate(train_loader):
             # Ensure data and target are tensors
                 if not isinstance(data, torch.Tensor):
                     data = torch.tensor(data)

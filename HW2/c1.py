@@ -1,4 +1,7 @@
 import time
+import torchvision
+import torchvision.transforms as transforms
+import time
 import torch.nn as nn
 import torch
 import torch.optim as optim

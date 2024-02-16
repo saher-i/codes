@@ -7,7 +7,9 @@ from torch.utils.data import DataLoader
 import argparse
 from model import BasicBlock, ResNet
 
+transform = transforms.Compose([transforms.ToTensor()])
 
+trainset = torchvision.datasets.CIFAR10(root='./data', train=True,download=True, transform=transform)
 def ResNet18():
     return ResNet(BasicBlock, [2, 2, 2, 2])
 

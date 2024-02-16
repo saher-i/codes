@@ -103,7 +103,15 @@ def main():
             end_data_loading_time = time.perf_counter()
 
             data_loading_time = end_data_loading_time - start_data_loading_time;
-
+            
+            #Added the following
+            for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
+            # Ensure data and target are tensors
+                if not isinstance(data, torch.Tensor):
+                    data = torch.tensor(data)
+                if not isinstance(target, torch.Tensor):
+                    target = torch.tensor(target)
+            
             data, target = data.to(device), target.to(device)
 
             start_training_time = time.perf_counter()

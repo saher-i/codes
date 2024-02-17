@@ -92,29 +92,15 @@ def main():
         training_time = 0  # Reset training time for each epoch
         data_loading_time = 0  # Reset data-loading time for each epoch
 
-        for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
-            
-            #Added the following
-            #trainloader = torch.utils.data.DataLoader(trainset, batch_size=128,shuffle=True, num_workers=num_workers) 
-
-            start_data_loading_time = time.perf_counter()
-            for i, data in enumerate(train_loader, 0):
+        start_data_loading_time = time.perf_counter()
+        for i, data in enumerate(train_loader, 0):
             # Simulate processing of data
              pass
-            end_data_loading_time = time.perf_counter()
+        end_data_loading_time = time.perf_counter()
+        data_loading_time = end_data_loading_time - start_data_loading_time;
 
-            data_loading_time = end_data_loading_time - start_data_loading_time;
-            
-            #Added the following
-            for batch_idx, (data, target) in enumerate(train_loader):
-            # Ensure data and target are tensors
-                if not isinstance(data, torch.Tensor):
-                    data = torch.tensor(data)
-                if not isinstance(target, torch.Tensor):
-                    target = torch.tensor(target)
-            
+        for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
             data, target = data.to(device), target.to(device)
-
             start_training_time = time.perf_counter()
             optimizer.zero_grad()
             output = model(data)
@@ -122,7 +108,6 @@ def main():
             loss.backward()
             optimizer.step()
             end_training_time = time.perf_counter()
-
             training_time += end_training_time - start_training_time
 
             pred = output.argmax(dim=1, keepdim=True)

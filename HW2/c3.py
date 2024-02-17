@@ -46,3 +46,12 @@ for num_workers in worker_counts:
 #optimal_workers = worker_counts[np.argmin(times)]
 #print(f"The optimal number of workers is: {optimal_workers}")
 
+
+
+# Train loader define -- num workers based
+# for loop  for num works : 
+    # s 
+    # for loop -- train loader 
+    # e 
+# e-s --> record
+

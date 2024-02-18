@@ -1,10 +1,9 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torchvision.models as models
-
+from c1 import ResNet18
 # Create an instance of ResNet-18
-resnet18 = models.resnet18()
+resnet18 = ResNet18()
 
 # Count the number of trainable parameters
 trainable_params = sum(p.numel() for p in resnet18.parameters() if p.requires_grad)

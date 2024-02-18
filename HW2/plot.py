@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 # Given data for the number of workers and the corresponding time taken
 worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
-times = [6.90, 15.73, 16.96, 17.09, 17.04, 17.43, 17.33, 17.47, 17.38]
+times = [5.68, 2.34, 1.79, 1.89, 1.96, 2.03, 2.18, 2.20, 2.29]
 
 # Plotting function
 def plot_workers_vs_time(worker_counts, times):

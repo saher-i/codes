@@ -1,5 +1,5 @@
-import torch
 import torch.nn as nn
+
 
 class BasicBlock(nn.Module):
     expansion = 1
@@ -80,4 +80,3 @@ class ResNet(nn.Module):
         out = out.view(out.size(0), -1)
         out = self.fc(out)
         return out
-

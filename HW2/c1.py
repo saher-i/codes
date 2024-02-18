@@ -13,7 +13,11 @@ from model import BasicBlock, ResNet
 
 transform = transforms.Compose([transforms.ToTensor()])
 
-trainset = torchvision.datasets.CIFAR10(root='./data', train=True,download=True, transform=transform)
+trainset = torchvision.datasets.CIFAR10(
+    root="./data", train=True, download=True, transform=transform
+)
+
+
 def ResNet18():
     return ResNet(BasicBlock, [2, 2, 2, 2])
 
@@ -95,23 +99,26 @@ def main():
         start_data_loading_time = time.perf_counter()
         for i, data in enumerate(train_loader, 0):
             # Simulate processing of data
-             pass
+            pass
         end_data_loading_time = time.perf_counter()
-        data_loading_time = end_data_loading_time - start_data_loading_time;
+        data_loading_time = end_data_loading_time - start_data_loading_time
 
         for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
-            data, target = data.to(device), target.to(device)
+            data, target = (
+                data.to(device),
+                target.to(device),
+            )  # pushed data, target to right device
             start_training_time = time.perf_counter()
-            optimizer.zero_grad()
-            output = model(data)
-            loss = criterion(output, target)
-            loss.backward()
-            optimizer.step()
+            optimizer.zero_grad()  # reset
+            output = model(data)  # prediction
+            loss = criterion(output, target)  # prediction and target differnece
+            loss.backward()  # pytorch function inbuilt
+            optimizer.step()  # updates gradients
             end_training_time = time.perf_counter()
             training_time += end_training_time - start_training_time
 
             pred = output.argmax(dim=1, keepdim=True)
-            correct = pred.eq(target.view_as(pred)).sum().item()
+            correct = pred.eq(target.view_as(pred)).sum().item()  # accuracy
 
             if batch_idx % 100 == 0:
                 print(

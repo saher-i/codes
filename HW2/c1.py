@@ -4,13 +4,12 @@ import torchvision.transforms as transforms
 import time
 import torch.nn as nn
 import torch
-import torch.optim as optim
+import torch.optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import argparse
 from tqdm import tqdm
 from model import BasicBlock, ResNet
-import numpy as np
 import matplotlib.pyplot as plt
 
 transform = transforms.Compose([transforms.ToTensor()])
@@ -32,11 +31,11 @@ def c2(train_dataset, args, workers):
     model = ResNet18().to(device)
 
     if args.optimizer.lower() == "sgd":
-        optimizer = optim.SGD(
+        optimizer = torch.optim.SGD(
             model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
         )
     elif args.optimizer.lower() == "adam":
-        optimizer = optim.Adam(model.parameters(), lr=0.001)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     else:
         raise ValueError("Unsupported optimizer provided. Choose 'sgd' or 'adam'.")
 
@@ -118,26 +117,28 @@ def c3(train_dataset, worker_counts):
 # Plotting function
 def plot_workers_vs_time(worker_counts, times):
     plt.figure(figsize=(10, 6))
-    plt.plot(worker_counts, times, marker='o', linestyle='-', color='b')
-    plt.title('DataLoader Performance vs. Number of Workers')
-    plt.xlabel('Number of Workers')
-    plt.ylabel('Total Time Taken (seconds)')
+    plt.plot(worker_counts, times, marker="o", linestyle="-", color="b")
+    plt.title("DataLoader Performance vs. Number of Workers")
+    plt.xlabel("Number of Workers")
+    plt.ylabel("Total Time Taken (seconds)")
     plt.xticks(worker_counts)
     plt.grid(True)
     plt.show()
 
 
-def gradients_params_count(optim = 'sgd'):
+def gradients_params_count(optim="sgd"):
     model = ResNet18()
 
     # Count the number of trainable parameters
     num_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    print(f'Number of trainable parameters: {num_trainable_params}')
+    print(f"Number of trainable parameters: {num_trainable_params}")
 
-    if optim == 'sgd':
-        optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4)
+    if optim == "sgd":
+        optimizer = torch.optim.SGD(
+            model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
+        )
     else:
-        optimizer = optim.Adam(model.parameters(), lr=0.001)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
     # Example input for a forward pass (assuming CIFAR-10 images, with shape 32x32x3)
     example_input = torch.randn(1, 3, 32, 32)  # Batch size of 1
@@ -162,11 +163,15 @@ def gradients_params_count(optim = 'sgd'):
     optimizer.step()
 
     # Check if gradients exist and count them
-    num_gradients = sum(p.grad.numel() for p in model.parameters() if p.grad is not None)
-    print(f'Number of gradients: {num_gradients}')
+    num_gradients = sum(
+        p.grad.numel() for p in model.parameters() if p.grad is not None
+    )
+    print(f"Number of gradients: {num_gradients}")
 
     # Confirming the relationship between trainable parameters and gradients
-    assert num_trainable_params == num_gradients, "The number of trainable parameters should equal the number of gradients"
+    assert (
+        num_trainable_params == num_gradients
+    ), "The number of trainable parameters should equal the number of gradients"
 
 
 def main():
@@ -174,8 +179,9 @@ def main():
     parser.add_argument(
         "--no-cuda", action="store_true", default=False, help="Disabled CUDA training"
     )
-    parser.add_argument()
+    parser.add_argument(
         "--plot", action="store_true", default=False, help="Plots the C3 part times"
+    )
 
     parser.add_argument(
         "--data-path", type=str, default="./data", help="path to dataset"
@@ -194,6 +200,7 @@ def main():
     )
     args = parser.parse_args()
 
+    global device
     use_cuda = not args.no_cuda and torch.cuda.is_available()
     device = torch.device("cuda" if use_cuda else "cpu")
     print("Using device : ", device)
@@ -213,44 +220,44 @@ def main():
     )
 
     # Run c2
-    print('*'*100)
+    print("*" * 100)
     print()
     print("Running Part C2")
-    c2(train_dataset, args, workers = 2)
+    c2(train_dataset, args, workers=2)
     print()
-
 
     # Run c3
-    print('*'*100)
+    print("*" * 100)
     print()
     print("Running Part C3")
-    worker_counts=[0, 4, 8, 12, 16, 20, 24, 28, 32])
-    times = c3(train_dataset,worker_counts)
+    worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
+    times = c3(train_dataset, worker_counts)
     print()
 
-    # Plot the times 
+    # Plot the times
     if args.plot:
-        print('*'*100)
+        print("*" * 100)
         print()
         print("Plotting for C3")
-        plot_workers_vs_time(worker_counts, times) 
+        plot_workers_vs_time(worker_counts, times)
 
     # Gradients calculation - Q3, Q4
-    print('*'*100)
+    print("*" * 100)
     print()
     print("Running Q3 using SGD optimizer")
-    gradients_params_count('sgd')
+    gradients_params_count("sgd")
     print()
     print("Using Adam optimizer for Q4\n")
-    gradients_params_count('adam')
+    gradients_params_count("adam")
 
     # Run c4
-    print('*'*100)
+    print("*" * 100)
     print()
     print("Running Part C4")
-    c2(train_dataset, args, workers = 1)
-    c2(train_dataset, args, workers = 8)
+    c2(train_dataset, args, workers=1)
+    c2(train_dataset, args, workers=8)
     print()
+
 
 if __name__ == "__main__":
     main()

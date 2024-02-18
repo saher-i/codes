@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from model import ResNet18
+from c1 import ResNet18
 
 # Assuming ResNet18() is the ResNet-18 model as previously defined
 

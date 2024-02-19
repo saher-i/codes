@@ -12,12 +12,6 @@ from tqdm import tqdm
 from model import BasicBlock, ResNet
 import matplotlib.pyplot as plt
 
-transform = transforms.Compose([transforms.ToTensor()])
-
-trainset = torchvision.datasets.CIFAR10(
-    root="./data", train=True, download=True, transform=transform
-)
-
 
 def ResNet18():
     return ResNet(BasicBlock, [2, 2, 2, 2])
@@ -286,7 +280,7 @@ def main():
 #    c2(train_dataset, args, workers=2)
     print()
 
-    # Run c3
+    # Run C3
     print("*" * 100)
     print()
     print("Running Part C3")
@@ -300,17 +294,9 @@ def main():
         print()
         print("Plotting for C3")
         plot_workers_vs_time(worker_counts, times)
+    
 
-    # Gradients calculation - Q3, Q4
-    print("*" * 100)
-    print()
-    print("Running Q3 using SGD optimizer")
-#    gradients_params_count("sgd")
-    print()
-    print("Using Adam optimizer for Q4\n")
-#    gradients_params_count("adam")
-
-    # Run c4
+    # Run C4
     print("*" * 100)
     print()
     print("Running Part C4")
@@ -328,7 +314,15 @@ def main():
     print()
     print("Running C5 on CPU")
 #    c5(train_dataset, args, workers=8, dev="cpu")
-
+    
+      # Gradients calculation - Q3, Q4
+    print("*" * 100)
+    print()
+    print("Running Q3 using SGD optimizer")
+#    gradients_params_count("sgd")
+    print()
+    print("Using Adam optimizer for Q4\n")
+#    gradients_params_count("adam")
 
 if __name__ == "__main__":
     main()

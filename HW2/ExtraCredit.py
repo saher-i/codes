@@ -62,7 +62,7 @@ def c3(train_dataset, worker_counts):
 
     for num_workers in worker_counts:
         trainloader = torch.utils.data.DataLoader(
-            trainset, batch_size=128, shuffle=True, num_workers=num_workers
+            train_dataset, batch_size=128, shuffle=True, num_workers=num_workers
         )
 
         start_time = time.time()

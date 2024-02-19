@@ -438,9 +438,10 @@ def main():
     #    gradients_params_count("sgd")
     print()
     print("Using Adam optimizer for Q4\n")
-
-
 #    gradients_params_count("adam")
+
+    print("#################################***********Extra Credit**************##################################\n")
+    print("For Extra Credit Attempt Run ExtaCredit.py)
 
 if __name__ == "__main__":
     main()

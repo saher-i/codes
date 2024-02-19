@@ -250,8 +250,8 @@ def c6(train_dataset, args, workers, optim):
     print(
         f"\tAverage Training Time over 5 Epochs: {total_training_time/5:.6f} seconds\n"
     )
-    print(f"Training Loss: {loss.item():.6f}\n")
-    print(f"Training Accuracy:{100. * correct / len(data):.2f}%\n")
+    print(f"\tTraining Loss: {loss.item():.6f}\n")
+    print(f"\tTraining Accuracy:{100. * correct / len(data):.2f}%\n")
 
 
 def gradients_params_count(optim="sgd"):
@@ -392,11 +392,16 @@ def main():
     # Running C6
     print("*" * 100)
     print()
-    print("Running C6")
+    print("Running C6\n")
+    print("Using SGD\n")
     c6(train_dataset, args, workers=8, optim="sgd")
+    print("Using SGD with nesterov\n")
     c6(train_dataset, args, workers=8, optim="SGD_nesterov")
+    print("Using Adgrad\n")
     c6(train_dataset, args, workers=8, optim="Adagrad")
+    print("Using Adadelta\n")
     c6(train_dataset, args, workers=8, optim="Adadelta")
+    print("Using Adam\n")
     c6(train_dataset, args, workers=8, optim="adam")
 
     # Gradients calculation - Q3, Q4

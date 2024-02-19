@@ -1,5 +1,4 @@
 import time
-import torchvision
 import torchvision.transforms as transforms
 import time
 import torch.nn as nn
@@ -179,8 +178,8 @@ def c5(train_dataset, args, workers, dev):
 
     print(f"\tAverage Time over 5 Epochs: {total_time/5:.6f} seconds\n")
 
+
 def c6(train_dataset, args, workers, optim):
-    
     total_training_time = 0
 
     train_loader = DataLoader(
@@ -226,7 +225,7 @@ def c6(train_dataset, args, workers, optim):
         model.train()
         training_time = 0  # Reset training time for each epoch
         data_loading_time = 0  # Reset data-loading time for each epoch
-    
+
         for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
             data, target = (
                 data.to(dev),
@@ -248,7 +247,9 @@ def c6(train_dataset, args, workers, optim):
         total_epoch_time = epoch_end_time - epoch_start_time
         total_training_time = total_training_time + training_time
 
-    print(f"\tAverage Training Time over 5 Epochs: {total_training_time/5:.6f} seconds\n")
+    print(
+        f"\tAverage Training Time over 5 Epochs: {total_training_time/5:.6f} seconds\n"
+    )
     print(f"Training Loss: {loss.item():.6f}\n")
     print(f"Training Accuracy:{100. * correct / len(data):.2f}%\n")
 
@@ -350,7 +351,7 @@ def main():
     print("*" * 100)
     print()
     print("Running Part C2")
-#    c2(train_dataset, args, workers=2)
+    #    c2(train_dataset, args, workers=2)
     print()
 
     # Run C3
@@ -358,7 +359,7 @@ def main():
     print()
     print("Running Part C3")
     worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
- #   times = c3(train_dataset, worker_counts)
+    #   times = c3(train_dataset, worker_counts)
     print()
 
     # Plot the times
@@ -367,45 +368,46 @@ def main():
         print()
         print("Plotting for C3")
         plot_workers_vs_time(worker_counts, times)
-    
 
     # Run C4
     print("*" * 100)
     print()
     print("Running Part C4")
-#    c2(train_dataset, args, workers=1)
-#    c2(train_dataset, args, workers=8)
+    #    c2(train_dataset, args, workers=1)
+    #    c2(train_dataset, args, workers=8)
     print()
 
     # Running C5
     print("*" * 100)
     print()
     print("Running C5 on CUDA")
-#    c5(train_dataset, args, workers=8, dev="cuda")
+    #    c5(train_dataset, args, workers=8, dev="cuda")
     print()
     print("*" * 100)
     print()
     print("Running C5 on CPU")
     print("device: cpu")
-#    c5(train_dataset, args, workers=8, dev="cpu")
-   
-    #Running C6
-    print("*"*100)
+    #    c5(train_dataset, args, workers=8, dev="cpu")
+
+    # Running C6
+    print("*" * 100)
     print()
     print("Running C6")
-    c6(train_dataset, args, workers=8,"sgd")
-    c6(train_dataset, args, workers=8,"SGD_nesterov")
-    c6(train_dataset, args, workers=8,"Adagrad")
-    c6(train_dataset, args, workers=8,"Adadelta")
-    c6(train_dataset, args, workers=8,"adam")
+    c6(train_dataset, args, workers=8, optim="sgd")
+    c6(train_dataset, args, workers=8, optim="SGD_nesterov")
+    c6(train_dataset, args, workers=8, optim="Adagrad")
+    c6(train_dataset, args, workers=8, optim="Adadelta")
+    c6(train_dataset, args, workers=8, optim="adam")
 
-      # Gradients calculation - Q3, Q4
+    # Gradients calculation - Q3, Q4
     print("*" * 100)
     print()
     print("Running Q3 using SGD optimizer")
-#    gradients_params_count("sgd")
+    #    gradients_params_count("sgd")
     print()
     print("Using Adam optimizer for Q4\n")
+
+
 #    gradients_params_count("adam")
 
 if __name__ == "__main__":

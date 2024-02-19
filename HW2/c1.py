@@ -308,12 +308,12 @@ def main():
     print("*" * 100)
     print()
     print("Running C5 on CUDA")
-    c5(train_dataset, args, workers=8, dev="cuda")
+#    c5(train_dataset, args, workers=8, dev="cuda")
     print()
     print("*" * 100)
     print()
     print("Running C5 on CPU")
-#    c5(train_dataset, args, workers=8, dev="cpu")
+    c5(train_dataset, args, workers=8, dev="cpu")
     
       # Gradients calculation - Q3, Q4
     print("*" * 100)

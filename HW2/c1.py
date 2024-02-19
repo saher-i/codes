@@ -12,8 +12,8 @@ from model import BasicBlock, ResNet
 import matplotlib.pyplot as plt
 
 
-def ResNet18():
-    return ResNet(BasicBlock, [2, 2, 2, 2])
+def ResNet18(use_bn=True):
+    return ResNet(BasicBlock, [2, 2, 2, 2], use_bn)
 
 
 def c2(train_dataset, args, workers):
@@ -179,14 +179,14 @@ def c5(train_dataset, args, workers, dev):
     print(f"\tAverage Time over 5 Epochs: {total_time/5:.6f} seconds\n")
 
 
-def c6(train_dataset, args, workers, optim):
+def c6(train_dataset, args, workers, optim, use_bn=True):
     total_training_time = 0
 
     train_loader = DataLoader(
         train_dataset, batch_size=128, shuffle=True, num_workers=workers
     )
 
-    model = ResNet18().to(device)
+    model = ResNet18(use_bn).to(device)
 
     if optim == "sgd":
         optimizer = torch.optim.SGD(
@@ -198,19 +198,13 @@ def c6(train_dataset, args, workers, optim):
         )
 
     elif optim == "Adagrad":
-        optimizer = torch.optim.Adagrad(
-            model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
-        )
+        optimizer = torch.optim.Adagrad(model.parameters(), lr=0.1, weight_decay=5e-4)
 
     elif optim == "Adadelta":
-        optimizer = torch.optim.Adadelta(
-            model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
-        )
+        optimizer = torch.optim.Adadelta(model.parameters(), lr=0.1, weight_decay=5e-4)
 
     elif optim == "adam":
-        optimizer = torch.optim.Adam(
-            model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
-        )
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.1, weight_decay=5e-4)
 
     else:
         raise ValueError("Unsupported optimizer provided. Choose 'sgd' or 'adam'.")
@@ -403,6 +397,13 @@ def main():
     c6(train_dataset, args, workers=8, optim="Adadelta")
     print("Using Adam\n")
     c6(train_dataset, args, workers=8, optim="adam")
+
+    # Running C7
+    print("*" * 100)
+    print()
+    print("Running C7\n")
+    print("Using SGD\n")
+    c6(train_dataset, args, workers=8, optim="sgd", use_bn=False)
 
     # Gradients calculation - Q3, Q4
     print("*" * 100)

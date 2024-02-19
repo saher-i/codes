@@ -179,6 +179,79 @@ def c5(train_dataset, args, workers, dev):
 
     print(f"\tAverage Time over 5 Epochs: {total_time/5:.6f} seconds\n")
 
+def c6(train_dataset, args, workers, optim):
+    
+    total_training_time = 0
+
+    train_loader = DataLoader(
+        train_dataset, batch_size=128, shuffle=True, num_workers=workers
+    )
+
+    model = ResNet18().to(device)
+
+    if optim == "sgd":
+        optimizer = torch.optim.SGD(
+            model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
+        )
+    else if optim == "SGD_nesterov":
+        optimizer = torch.optim.SGD(
+            model.parameters(), lr=0.1, momentum=0.9, nesterov=True, weight_decay=5e-4
+        )
+
+    else if optim == "Adagrad":
+        optimizer = torch.optim.Adagrad(
+            model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
+        )
+
+    else if optim == "Adadelta":
+        optimizer = torch.optim.Adadelta(
+            model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
+        )
+
+    else if optim == "adam":
+        optimizer = torch.optim.Adam(
+            model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
+        )
+
+    else:
+        raise ValueError("Unsupported optimizer provided. Choose 'sgd' or 'adam'.")
+
+    criterion = nn.CrossEntropyLoss()
+
+    # Training phase
+
+    for epoch in range(1, 6):  # run for 5 epochs
+        epoch_start_time = time.perf_counter()
+
+        model.train()
+        training_time = 0  # Reset training time for each epoch
+        data_loading_time = 0  # Reset data-loading time for each epoch
+    
+        for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
+            data, target = (
+                data.to(dev),
+                target.to(dev),
+            )  # pushed data, target to right device
+            start_training_time = time.perf_counter()
+            optimizer.zero_grad()  # reset
+            output = model(data)  # prediction
+            loss = criterion(output, target)  # prediction and target differnece
+            loss.backward()  # pytorch function inbuilt
+            optimizer.step()  # updates gradients
+            end_training_time = time.perf_counter()
+            training_time += end_training_time - start_training_time
+
+            pred = output.argmax(dim=1, keepdim=True)
+            correct = pred.eq(target.view_as(pred)).sum().item()  # accuracy
+
+        epoch_end_time = time.perf_counter()
+        total_epoch_time = epoch_end_time - epoch_start_time
+        total_training_time = total_training_time + training_time
+
+    print(f"\tAverage Training Time over 5 Epochs: {total_training_time/5:.6f} seconds\n")
+    print(f"Training Loss: {loss.item():.6f}\n")
+    print(f"Training Accuracy:{100. * correct / len(data):.2f}%\n")
+
 
 def gradients_params_count(optim="sgd"):
     model = ResNet18()
@@ -313,8 +386,19 @@ def main():
     print("*" * 100)
     print()
     print("Running C5 on CPU")
-    c5(train_dataset, args, workers=8, dev="cpu")
-    
+    print("device: cpu")
+#    c5(train_dataset, args, workers=8, dev="cpu")
+   
+    #Running C6
+    print("*"*100)
+    print()
+    print("Running C6")
+    c6(train_dataset, args, workers=8,"sgd")
+    c6(train_dataset, args, workers=8,"SGD_nesterov")
+    c6(train_dataset, args, workers=8,"Adagrad")
+    c6(train_dataset, args, workers=8,"Adadelta")
+    c6(train_dataset, args, workers=8,"adam")
+
       # Gradients calculation - Q3, Q4
     print("*" * 100)
     print()

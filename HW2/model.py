@@ -7,7 +7,8 @@ class BasicBlock(nn.Module):
     def __init__(self, in_channels, out_channels, stride=1, use_bn=True):
         super(BasicBlock, self).__init__()
         self.use_bn = use_bn
-        print("BatchNorm Layers : ", self.use_bn)
+        if not self.use_bn:
+            print("BatchNorm Layers set to ", self.use_bn)
         self.conv1 = nn.Conv2d(
             in_channels,
             out_channels,
@@ -59,7 +60,8 @@ class ResNet(nn.Module):
         super(ResNet, self).__init__()
         self.in_channels = 64
         self.use_bn = use_bn
-        print("BatchNorm Layers : ", self.use_bn)
+        if not self.use_bn:
+            print("BatchNorm Layers set to ", self.use_bn)
 
         self.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(64)

@@ -283,7 +283,7 @@ def main():
     print("*" * 100)
     print()
     print("Running Part C2")
-    c2(train_dataset, args, workers=2)
+#    c2(train_dataset, args, workers=2)
     print()
 
     # Run c3
@@ -291,7 +291,7 @@ def main():
     print()
     print("Running Part C3")
     worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
-    times = c3(train_dataset, worker_counts)
+ #   times = c3(train_dataset, worker_counts)
     print()
 
     # Plot the times
@@ -305,17 +305,17 @@ def main():
     print("*" * 100)
     print()
     print("Running Q3 using SGD optimizer")
-    gradients_params_count("sgd")
+#    gradients_params_count("sgd")
     print()
     print("Using Adam optimizer for Q4\n")
-    gradients_params_count("adam")
+#    gradients_params_count("adam")
 
     # Run c4
     print("*" * 100)
     print()
     print("Running Part C4")
-    c2(train_dataset, args, workers=1)
-    c2(train_dataset, args, workers=8)
+#    c2(train_dataset, args, workers=1)
+#    c2(train_dataset, args, workers=8)
     print()
 
     # Running C5
@@ -327,7 +327,7 @@ def main():
     print("*" * 100)
     print()
     print("Running C5 on CPU")
-    c5(train_dataset, args, workers=8, dev="cpu")
+#    c5(train_dataset, args, workers=8, dev="cpu")
 
 
 if __name__ == "__main__":

@@ -3,14 +3,13 @@ import torchvision.transforms as transforms
 import time
 import torch.nn as nn
 import torch
-import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import argparse
-from tqdm import tqdm
 from model import BasicBlock, ResNet
 import matplotlib.pyplot as plt
 from torch.profiler import profile, record_function, ProfilerActivity
+
 
 def ResNet18(use_bn=True):
     return ResNet(
@@ -39,8 +38,9 @@ def c2(train_dataset, args, workers):
     # Training phase
 
     for epoch in range(1, 6):  # run for 5 epochs
-        
-       with profile(activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True) as prof:
+        with profile(
+            activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True
+        ) as prof:
             with record_function("model_training"):
                 for batch_idx, (data, target) in enumerate(train_loader):
                     data, target = data.to(device), target.to(device)
@@ -51,7 +51,7 @@ def c2(train_dataset, args, workers):
                     optimizer.step()
 
         # Save profile
-       prof.export_chrome_trace(f"trace_epoch_{epoch}.json")
+        prof.export_chrome_trace(f"trace_epoch_{epoch}.json")
 
     print("Profiling complete. Trace files saved.")
 
@@ -113,8 +113,9 @@ def c5(train_dataset, args, workers, dev):
     # Training phase
 
     for epoch in range(1, 6):  # run for 5 epochs
-        
-        with profile(activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True) as prof:
+        with profile(
+            activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True
+        ) as prof:
             with record_function("model_training"):
                 for batch_idx, (data, target) in enumerate(train_loader):
                     data, target = data.to(device), target.to(device)
@@ -128,6 +129,7 @@ def c5(train_dataset, args, workers, dev):
         prof.export_chrome_trace(f"trace_epoch_{epoch}.json")
 
     print("Profiling complete. Trace files saved.")
+
 
 def gradients_params_count(optim="sgd"):
     model = ResNet18()
@@ -178,12 +180,30 @@ def gradients_params_count(optim="sgd"):
 
 
 def main():
-
-    parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training with Profiling')
-    parser.add_argument('--no-cuda', action='store_true', default=False, help='disables CUDA training')
-    parser.add_argument('--data-path', type=str, default='./data', help='path to dataset')
-    parser.add_argument('--num-workers', type=int, default=2, help='number of data loading workers (default: 2)')
-    parser.add_argument('--optimizer', type=str, default='sgd', help="optimizer; 'sgd' or 'adam' (default: 'sgd')")
+    parser = argparse.ArgumentParser(
+        description="PyTorch CIFAR10 Training with Profiling"
+    )
+    parser.add_argument(
+        "--no-cuda", action="store_true", default=False, help="disables CUDA training"
+    )
+    parser.add_argument(
+        "--data-path", type=str, default="./data", help="path to dataset"
+    )
+    parser.add_argument(
+        "--num-workers",
+        type=int,
+        default=2,
+        help="number of data loading workers (default: 2)",
+    )
+    parser.add_argument(
+        "--optimizer",
+        type=str,
+        default="sgd",
+        help="optimizer; 'sgd' or 'adam' (default: 'sgd')",
+    )
+    parser.add_argument(
+        "--plot", action="store_true", default=False, help="Plots the times"
+    )
     args = parser.parse_args()
 
     global device
@@ -205,9 +225,13 @@ def main():
         root=args.data_path, train=True, download=True, transform=transform
     )
 
-    train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True, num_workers=args.num_workers)
+    train_loader = DataLoader(
+        train_dataset, batch_size=128, shuffle=True, num_workers=args.num_workers
+    )
 
-    print("#################################***********Extra Credit**************##################################\n")
+    print(
+        "#################################***********Extra Credit**************##################################\n"
+    )
 
     # Run c2
     print("*" * 100)

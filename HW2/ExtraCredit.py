@@ -60,7 +60,7 @@ def c3(train_dataset, worker_counts):
     # Record DataLoader times
     times = []
     train_loader = DataLoader(
-        train_dataset, batch_size=128, shuffle=True, num_workers=workers
+        train_dataset, batch_size=128, shuffle=True, num_workers=num_workers
     )
     for num_workers in worker_counts:
         with profile(activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True) as prof:
@@ -189,14 +189,15 @@ def main():
     print("*" * 100)
     print()
     print("Running Part C2")
-    c2(train_dataset, args, workers=2)
+    #c2(train_dataset, args, workers=2)
     print()
 
     # Run C3
     print("*" * 100)
     print()
     print("Running Part C3")
-    worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
+    #worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
+    worker_counts = [0, 4]
     times = c3(train_dataset, worker_counts)
     print()
 

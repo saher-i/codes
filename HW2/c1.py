@@ -193,22 +193,22 @@ def c6(train_dataset, args, workers, optim):
         optimizer = torch.optim.SGD(
             model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
         )
-    else if optim == "SGD_nesterov":
+    elif optim == "SGD_nesterov":
         optimizer = torch.optim.SGD(
             model.parameters(), lr=0.1, momentum=0.9, nesterov=True, weight_decay=5e-4
         )
 
-    else if optim == "Adagrad":
+    elif optim == "Adagrad":
         optimizer = torch.optim.Adagrad(
             model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
         )
 
-    else if optim == "Adadelta":
+    elif optim == "Adadelta":
         optimizer = torch.optim.Adadelta(
             model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
         )
 
-    else if optim == "adam":
+    elif optim == "adam":
         optimizer = torch.optim.Adam(
             model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
         )

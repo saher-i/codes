@@ -103,6 +103,9 @@ def c3(train_dataset, worker_counts):
         trainloader = torch.utils.data.DataLoader(
             train_dataset, batch_size=128, shuffle=True, num_workers=num_workers
         )
+        
+        if device == "cuda":
+            torch.cuda.synchronize()
 
         start_time = time.time()
         for i, data in enumerate(trainloader, 0):

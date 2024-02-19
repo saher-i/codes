@@ -62,6 +62,10 @@ def c3(train_dataset, worker_counts):
     for num_workers in worker_counts:
         with profile(activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True) as prof:
             train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True, num_workers=num_workers)
+            
+            if device == "cuda":
+                torch.cuda.synchronize()
+
             start_time = time.time()
             for i, data in enumerate(train_loader, 0):
                 # Simulate processing of data
@@ -194,8 +198,8 @@ def main():
     print()
     print("Running Part C3")
     #worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
-    worker_counts = [0, 4]
-    times = c3(train_dataset, worker_counts)
+    #worker_counts = [0, 4]
+    #times = c3(train_dataset, worker_counts)
     print()
 
     # Plot the times

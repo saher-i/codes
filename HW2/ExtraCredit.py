@@ -63,7 +63,7 @@ def c3(train_dataset, worker_counts):
         with profile(activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True) as prof:
             train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True, num_workers=num_workers)
             start_time = time.time()
-            for i, data in enumerate(trainloader, 0):
+            for i, data in enumerate(train_loader, 0):
                 # Simulate processing of data
                 pass
             end_time = time.time()

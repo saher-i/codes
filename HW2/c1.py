@@ -13,7 +13,9 @@ import matplotlib.pyplot as plt
 
 
 def ResNet18(use_bn=True):
-    return ResNet(BasicBlock, [2, 2, 2, 2], use_bn)
+    return ResNet(
+        block=BasicBlock, num_blocks=[2, 2, 2, 2], num_classes=10, use_bn=use_bn
+    )
 
 
 def c2(train_dataset, args, workers):

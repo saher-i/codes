@@ -59,14 +59,13 @@ def c2(train_dataset, args, workers):
 def c3(train_dataset, worker_counts):
     # Record DataLoader times
     times = []
-
+    train_loader = DataLoader(
+        train_dataset, batch_size=128, shuffle=True, num_workers=workers
+    )
     for num_workers in worker_counts:
         with profile(
             activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True
         ) as prof:
-        trainloader = torch.utils.data.DataLoader(
-            train_dataset, batch_size=128, shuffle=True, num_workers=num_workers
-        )
 
         start_time = time.time()
         for i, data in enumerate(trainloader, 0):

@@ -61,6 +61,9 @@ def c3(train_dataset, worker_counts):
     times = []
 
     for num_workers in worker_counts:
+        with profile(
+            activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True
+        ) as prof:
         trainloader = torch.utils.data.DataLoader(
             train_dataset, batch_size=128, shuffle=True, num_workers=num_workers
         )
@@ -129,54 +132,6 @@ def c5(train_dataset, args, workers, dev):
         prof.export_chrome_trace(f"trace_epoch_{epoch}.json")
 
     print("Profiling complete. Trace files saved.")
-
-
-def gradients_params_count(optim="sgd"):
-    model = ResNet18()
-
-    # Count the number of trainable parameters
-    num_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    print(f"Number of trainable parameters: {num_trainable_params}")
-
-    if optim == "sgd":
-        optimizer = torch.optim.SGD(
-            model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
-        )
-    else:
-        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-
-    # Example input for a forward pass (assuming CIFAR-10 images, with shape 32x32x3)
-    example_input = torch.randn(1, 3, 32, 32)  # Batch size of 1
-
-    optimizer.zero_grad()
-    # Forward pass
-    output = model(example_input)
-
-    # Example target for computing loss (assuming CIFAR-10, with 10 classes)
-    target = torch.tensor([1], dtype=torch.long)  # Example target class
-
-    # Loss function
-    criterion = nn.CrossEntropyLoss()
-
-    # Compute loss
-    loss = criterion(output, target)
-
-    # Backward pass to compute gradients
-    loss.backward()
-
-    # step take
-    optimizer.step()
-
-    # Check if gradients exist and count them
-    num_gradients = sum(
-        p.grad.numel() for p in model.parameters() if p.grad is not None
-    )
-    print(f"Number of gradients: {num_gradients}")
-
-    # Confirming the relationship between trainable parameters and gradients
-    assert (
-        num_trainable_params == num_gradients
-    ), "The number of trainable parameters should equal the number of gradients"
 
 
 def main():

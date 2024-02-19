@@ -65,16 +65,28 @@ class ResNet(nn.Module):
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)
         self.layer1 = self._make_layer(
-            block, 64, num_blocks[0], stride=1, use_bn=self.use_bn
+            block,
+            64,
+            num_blocks[0],
+            stride=1,
         )
         self.layer2 = self._make_layer(
-            block, 128, num_blocks[1], stride=2, use_bn=self.use_bn
+            block,
+            128,
+            num_blocks[1],
+            stride=2,
         )
         self.layer3 = self._make_layer(
-            block, 256, num_blocks[2], stride=2, use_bn=self.use_bn
+            block,
+            256,
+            num_blocks[2],
+            stride=2,
         )
         self.layer4 = self._make_layer(
-            block, 512, num_blocks[3], stride=2, use_bn=self.use_bn
+            block,
+            512,
+            num_blocks[3],
+            stride=2,
         )
         self.avg_pool = nn.AdaptiveAvgPool2d((1, 1))
         self.fc = nn.Linear(512 * block.expansion, num_classes)

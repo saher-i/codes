@@ -51,7 +51,7 @@ def c2(train_dataset, args, workers):
                     optimizer.step()
 
         # Save profile
-        prof.export_chrome_trace(f"trace_epoch_{epoch}.json")
+       prof.export_chrome_trace(f"trace_epoch_{epoch}.json")
 
     print("Profiling complete. Trace files saved.")
 

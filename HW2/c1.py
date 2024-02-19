@@ -228,8 +228,8 @@ def c6(train_dataset, args, workers, optim):
 
         for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
             data, target = (
-                data.to(dev),
-                target.to(dev),
+                data.to(device),
+                target.to(device),
             )  # pushed data, target to right device
             start_training_time = time.perf_counter()
             optimizer.zero_grad()  # reset

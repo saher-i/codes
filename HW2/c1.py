@@ -126,6 +126,66 @@ def plot_workers_vs_time(worker_counts, times):
     plt.show()
 
 
+def c5(train_dataset, args, workers, dev):
+    total_time = 0
+
+    train_loader = DataLoader(
+        train_dataset, batch_size=128, shuffle=True, num_workers=workers
+    )
+
+    model = ResNet18().to(dev)
+
+    if args.optimizer.lower() == "sgd":
+        optimizer = torch.optim.SGD(
+            model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4
+        )
+    elif args.optimizer.lower() == "adam":
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    else:
+        raise ValueError("Unsupported optimizer provided. Choose 'sgd' or 'adam'.")
+
+    criterion = nn.CrossEntropyLoss()
+
+    # Training phase
+
+    for epoch in range(1, 6):  # run for 5 epochs
+        epoch_start_time = time.perf_counter()
+
+        model.train()
+        training_time = 0  # Reset training time for each epoch
+        data_loading_time = 0  # Reset data-loading time for each epoch
+
+        start_data_loading_time = time.perf_counter()
+        for i, data in enumerate(train_loader, 0):
+            # Simulate processing of data
+            pass
+        end_data_loading_time = time.perf_counter()
+        data_loading_time = end_data_loading_time - start_data_loading_time
+
+        for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
+            data, target = (
+                data.to(dev),
+                target.to(dev),
+            )  # pushed data, target to right device
+            start_training_time = time.perf_counter()
+            optimizer.zero_grad()  # reset
+            output = model(data)  # prediction
+            loss = criterion(output, target)  # prediction and target differnece
+            loss.backward()  # pytorch function inbuilt
+            optimizer.step()  # updates gradients
+            end_training_time = time.perf_counter()
+            training_time += end_training_time - start_training_time
+
+            pred = output.argmax(dim=1, keepdim=True)
+            correct = pred.eq(target.view_as(pred)).sum().item()  # accuracy
+
+        epoch_end_time = time.perf_counter()
+        total_epoch_time = epoch_end_time - epoch_start_time
+        total_time = total_time + total_epoch_time
+
+    print(f"\tAverage Time over 5 Epochs: {total_time/5:.6f} seconds\n")
+
+
 def gradients_params_count(optim="sgd"):
     model = ResNet18()
 
@@ -257,6 +317,17 @@ def main():
     c2(train_dataset, args, workers=1)
     c2(train_dataset, args, workers=8)
     print()
+
+    # Running C5
+    print("*" * 100)
+    print()
+    print("Running C5 on CUDA")
+    c5(train_dataset, args, workers=8, dev="cuda")
+    print()
+    print("*" * 100)
+    print()
+    print("Running C5 on CPU")
+    c5(train_dataset, args, workers=8, dev="cpu")
 
 
 if __name__ == "__main__":

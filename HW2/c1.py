@@ -39,6 +39,10 @@ def c2(train_dataset, args, workers):
     # Training phase
 
     for epoch in range(1, 6):  # run for 5 epochs
+        
+        if device == "cuda":
+            torch.cuda.synchronize()
+
         epoch_start_time = time.perf_counter()
 
         model.train()
@@ -76,6 +80,10 @@ def c2(train_dataset, args, workers):
             #         f"Loss: {loss.item():.6f} "
             #         f"Accuracy: {100. * correct / len(data):.2f}%"
             #     )
+
+
+        if device == "cuda":
+            torch.cuda.synchronize()
 
         epoch_end_time = time.perf_counter()
         total_epoch_time = epoch_end_time - epoch_start_time
@@ -144,6 +152,10 @@ def c5(train_dataset, args, workers, dev):
     # Training phase
 
     for epoch in range(1, 6):  # run for 5 epochs
+        
+        if device == "cuda":
+            torch.cuda.synchronize()
+        
         epoch_start_time = time.perf_counter()
 
         model.train()
@@ -174,6 +186,9 @@ def c5(train_dataset, args, workers, dev):
             pred = output.argmax(dim=1, keepdim=True)
             correct = pred.eq(target.view_as(pred)).sum().item()  # accuracy
 
+        if device == "cuda":
+            torch.cuda.synchronize()
+
         epoch_end_time = time.perf_counter()
         total_epoch_time = epoch_end_time - epoch_start_time
         total_time = total_time + total_epoch_time
@@ -182,6 +197,7 @@ def c5(train_dataset, args, workers, dev):
 
 
 def c6(train_dataset, args, workers, optim, use_bn=True):
+    
     total_training_time = 0
 
     train_loader = DataLoader(
@@ -216,6 +232,10 @@ def c6(train_dataset, args, workers, optim, use_bn=True):
     # Training phase
 
     for epoch in range(1, 6):  # run for 5 epochs
+        
+        if device == "cuda":
+            torch.cuda.synchronize()
+
         epoch_start_time = time.perf_counter()
 
         model.train()
@@ -238,6 +258,10 @@ def c6(train_dataset, args, workers, optim, use_bn=True):
 
             pred = output.argmax(dim=1, keepdim=True)
             correct = pred.eq(target.view_as(pred)).sum().item()  # accuracy
+
+
+        if device == "cuda":
+            torch.cuda.synchronize()
 
         epoch_end_time = time.perf_counter()
         total_epoch_time = epoch_end_time - epoch_start_time

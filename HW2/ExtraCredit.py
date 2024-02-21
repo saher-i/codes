@@ -38,17 +38,46 @@ def c2(train_dataset, args, workers):
     # Training phase
 
     for epoch in range(1, 6):  # run for 5 epochs
-        with profile(
-            activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True
-        ) as prof:
-            with record_function("model_training"):
-                for batch_idx, (data, target) in enumerate(train_loader):
-                    data, target = data.to(device), target.to(device)
-                    optimizer.zero_grad()
+        
+        if device == "cuda":
+            torch.cuda.synchronize()
+
+        epoch_start_time = time.perf_counter()
+        data_loading_time = 0
+
+
+        with profile(activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True, profile_memory=True, with_stack=True) as prof:
+            for batch_idx, (data, target) in enumerate(train_loader):
+                start_data_loading_time = time.perf_counter()
+                data, target = data.to(device), target.to(device)
+                end_data_loading_time = time.perf_counter()
+                data_loading_time += end_data_loading_time - start_data_loading_time
+
+                optimizer.zero_grad()
+                with record_function("model_forward"):
                     output = model(data)
-                    loss = criterion(output, target)
+                loss = criterion(output, target)
+                with record_function("model_backward"):
                     loss.backward()
-                    optimizer.step()
+                optimizer.step()
+                
+                epoch_end_time = time.perf_counter()
+                total_epoch_time = epoch_end_time - epoch_start_time
+                print(f'Epoch {epoch} Complete: \n'
+                    f'\tData-Loading Time: {data_loading_time:.2f} seconds\n'
+                    f'\tTotal Epoch Time: {total_epoch_time:.2f} seconds\n')
+
+  #      with profile(
+  #          activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True
+  #      ) as prof:
+  #          with record_function("model_training"):
+  #              for batch_idx, (data, target) in enumerate(train_loader):
+  #                  data, target = data.to(device), target.to(device)
+  #                  optimizer.zero_grad()
+  #                  output = model(data)
+  #                  loss = criterion(output, target)
+  #                  loss.backward()
+  #                  optimizer.step()
 
         # Save profile
         prof.export_chrome_trace(f"trace_epoch_{epoch}.json")
@@ -190,7 +219,7 @@ def main():
     print("*" * 100)
     print()
     print("Running Part C2")
-    #c2(train_dataset, args, workers=2)
+    c2(train_dataset, args, workers=2)
     print()
 
     # Run C3
@@ -213,21 +242,21 @@ def main():
     print("*" * 100)
     print()
     print("Running Part C4")
-    c2(train_dataset, args, workers=1)
-    c2(train_dataset, args, workers=8)
+    #c2(train_dataset, args, workers=1)
+    #c2(train_dataset, args, workers=8)
     print()
 
     # Running C5
     print("*" * 100)
     print()
     print("Running C5 on CUDA")
-    c5(train_dataset, args, workers=8, dev="cuda")
+    #c5(train_dataset, args, workers=8, dev="cuda")
     print()
     print("*" * 100)
     print()
     print("Running C5 on CPU")
     print("device: cpu")
-    c5(train_dataset, args, workers=8, dev="cpu")
+    #c5(train_dataset, args, workers=8, dev="cpu")
 
 
 if __name__ == "__main__":

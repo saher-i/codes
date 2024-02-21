@@ -63,7 +63,7 @@ def c2(train_dataset, args, workers):
                 
                 epoch_end_time = time.perf_counter()
                 total_epoch_time = epoch_end_time - epoch_start_time
-                print(f'Epoch {epoch} Complete: \n'
+        print(f'Epoch {epoch} Complete: \n'
                     f'\tData-Loading Time: {data_loading_time:.2f} seconds\n'
                     f'\tTotal Epoch Time: {total_epoch_time:.2f} seconds\n')
 

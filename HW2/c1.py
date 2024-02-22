@@ -374,7 +374,7 @@ def main():
     print("*" * 100)
     print()
     print("Running Part C2")
-    #    c2(train_dataset, args, workers=2)
+    c2(train_dataset, args, workers=2)
     print()
 
     # Run C3
@@ -417,22 +417,22 @@ def main():
     print()
     print("Running C6\n")
     print("Using SGD\n")
-    c6(train_dataset, args, workers=8, optim="sgd")
+  #  c6(train_dataset, args, workers=8, optim="sgd")
     print("Using SGD with nesterov\n")
-    c6(train_dataset, args, workers=8, optim="SGD_nesterov")
+  #  c6(train_dataset, args, workers=8, optim="SGD_nesterov")
     print("Using Adgrad\n")
-    c6(train_dataset, args, workers=8, optim="Adagrad")
+   # c6(train_dataset, args, workers=8, optim="Adagrad")
     print("Using Adadelta\n")
-    c6(train_dataset, args, workers=8, optim="Adadelta")
+  #  c6(train_dataset, args, workers=8, optim="Adadelta")
     print("Using Adam\n")
-    c6(train_dataset, args, workers=8, optim="adam")
+ #   c6(train_dataset, args, workers=8, optim="adam")
 
     # Running C7
     print("*" * 100)
     print()
     print("Running C7\n")
     print("Using SGD\n")
-    c6(train_dataset, args, workers=8, optim="sgd", use_bn=False)
+#    c6(train_dataset, args, workers=8, optim="sgd", use_bn=False)
 
     # Gradients calculation - Q3, Q4
     print("*" * 100)

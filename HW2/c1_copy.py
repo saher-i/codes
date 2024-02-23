@@ -165,18 +165,22 @@ def c5(train_dataset, args, workers, dev):
         training_time = 0  # Reset training time for each epoch
         data_loading_time = 0  # Reset data-loading time for each epoch
 
-        start_data_loading_time = time.perf_counter()
-        for i, data in enumerate(train_loader, 0):
-            # Simulate processing of data
-            pass
-        end_data_loading_time = time.perf_counter()
-        data_loading_time = end_data_loading_time - start_data_loading_time
-
         for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
+            # Measure data loading time for each batch
+            if batch_idx == 0:
+                start_data_loading_time = time.perf_counter()
+            else:
+                start_data_loading_time = end_training_time  # Start immediately after the last batch's training time
+
+            # Training begins here, so we mark the end of data loading
+            end_data_loading_time = time.perf_counter()
+            data_loading_time += end_data_loading_time - start_data_loading_time
+
             data, target = (
                 data.to(dev),
                 target.to(dev),
             )  # pushed data, target to right device
+
             start_training_time = time.perf_counter()
             optimizer.zero_grad()  # reset
             output = model(data)  # prediction
@@ -244,6 +248,16 @@ def c6(train_dataset, args, workers, optim, use_bn=True):
         data_loading_time = 0  # Reset data-loading time for each epoch
 
         for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
+            # Measure data loading time for each batch
+            if batch_idx == 0:
+                start_data_loading_time = time.perf_counter()
+            else:
+                start_data_loading_time = end_training_time  # Start immediately after the last batch's training time
+
+            # Training begins here, so we mark the end of data loading
+            end_data_loading_time = time.perf_counter()
+            data_loading_time += end_data_loading_time - start_data_loading_time
+
             data, target = (
                 data.to(device),
                 target.to(device),
@@ -379,7 +393,7 @@ def main():
     print()
     print("Running Part C3")
     worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
-    #   times = c3(train_dataset, worker_counts)
+    times = c3(train_dataset, worker_counts)
     print()
 
     # Plot the times

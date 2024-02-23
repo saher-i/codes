@@ -251,7 +251,9 @@ def main():
     print("*" * 100)
     print()
     print("Running Part C4")
+    print("Number of workers 1 ")
     #c2(train_dataset, args, workers=1)
+    print("Number of workers 8 - Optimal ")
     #c2(train_dataset, args, workers=8)
     print()
 

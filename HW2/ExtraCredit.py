@@ -235,9 +235,8 @@ def main():
     print("*" * 100)
     print()
     print("Running Part C3")
-    #worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
-    #worker_counts = [0, 4]
-    #times = c3(train_dataset, worker_counts)
+    worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
+    times = c3(train_dataset, worker_counts)
     print()
 
     # Plot the times
@@ -252,20 +251,20 @@ def main():
     print()
     print("Running Part C4")
     print("Number of workers 1 ")
-    #c2(train_dataset, args, workers=1)
+    c2(train_dataset, args, workers=1)
     print("Number of workers 8 - Optimal ")
-    #c2(train_dataset, args, workers=8)
+    c2(train_dataset, args, workers=8)
     print()
 
     # Running C5
     print("*" * 100)
     print()
     print("Running C5 on CUDA")
-    #c5(train_dataset, args, workers=8, dev="cuda")
+    c5(train_dataset, args, workers=8, dev="cuda")
     print()
     print("*" * 100)
     print()
-    print("Running C5 on CPU")
+    print("Running C5 on CPU") #NOT WORKING
     print("device: cpu")
     #c5(train_dataset, args, workers=8, dev="cpu")
 

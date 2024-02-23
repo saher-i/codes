@@ -135,9 +135,15 @@ def c5(train_dataset, args, workers, dev):
     # Training phase
 
     for epoch in range(1, 6):  # run for 5 epochs
-        with profile(
-            activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True
-        ) as prof:
+        
+        if device == "cuda":
+            torch.cuda.synchronize()
+
+        epoch_start_time = time.perf_counter()
+        data_loading_time = 0
+
+
+        with profile(activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True, profile_memory=True, with_stack=True) as prof:
             for batch_idx, (data, target) in enumerate(train_loader):
                 start_data_loading_time = time.perf_counter()
                 data, target = data.to(device), target.to(device)
@@ -152,8 +158,8 @@ def c5(train_dataset, args, workers, dev):
                     loss.backward()
                 optimizer.step()
 
-                epoch_end_time = time.perf_counter()
-                total_epoch_time = epoch_end_time - epoch_start_time
+        epoch_end_time = time.perf_counter()
+        total_epoch_time = epoch_end_time - epoch_start_time
 
         print(f'Epoch {epoch} Complete: \n'
                     f'\tData-Loading Time: {data_loading_time:.2f} seconds\n'

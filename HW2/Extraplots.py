@@ -2,8 +2,8 @@
 import matplotlib.pyplot as plt
 
 # Given data for the number of workers and the corresponding time taken
-worker_counts = [0, 4, 8, 12, 16, 20, 24, 28, 32]
-times = [18.02, 5.26, 4.12, 4.19, 4.25, 4.34, 4.45, 4.48, 4.63]
+worker_counts = [0, 4, 8, 12, 16, 20]
+times = [28.06, 9.22, 7.74, 8.48, 9.46, 10.07]
 
 
 # Plotting function

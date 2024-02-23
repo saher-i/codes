@@ -60,26 +60,14 @@ def c2(train_dataset, args, workers):
                 with record_function("model_backward"):
                     loss.backward()
                 optimizer.step()
-                
-                epoch_end_time = time.perf_counter()
-                total_epoch_time = epoch_end_time - epoch_start_time
+
+        epoch_end_time = time.perf_counter()
+        total_epoch_time = epoch_end_time - epoch_start_time
+
         print(f'Epoch {epoch} Complete: \n'
                     f'\tData-Loading Time: {data_loading_time:.2f} seconds\n'
                     f'\tTotal Epoch Time: {total_epoch_time:.2f} seconds\n')
 
-  #      with profile(
-  #          activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True
-  #      ) as prof:
-  #          with record_function("model_training"):
-  #              for batch_idx, (data, target) in enumerate(train_loader):
-  #                  data, target = data.to(device), target.to(device)
-  #                  optimizer.zero_grad()
-  #                  output = model(data)
-  #                  loss = criterion(output, target)
-  #                  loss.backward()
-  #                  optimizer.step()
-
-        # Save profile
         prof.export_chrome_trace(f"trace_epoch_{epoch}.json")
 
     print("Profiling complete. Trace files saved.")

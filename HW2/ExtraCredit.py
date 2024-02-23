@@ -121,6 +121,10 @@ def plot_workers_vs_time(worker_counts, times):
 
 
 def c5(train_dataset, args, workers, dev):
+    
+    if device == "cuda":
+            torch.cuda.synchronize()
+
     total_time = 0
 
     train_loader = DataLoader(
@@ -146,15 +150,26 @@ def c5(train_dataset, args, workers, dev):
         with profile(
             activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA], record_shapes=True
         ) as prof:
-            with record_function("model_training"):
-                for batch_idx, (data, target) in enumerate(train_loader):
-                    data, target = data.to(device), target.to(device)
-                    optimizer.zero_grad()
-                    output = model(data)
-                    loss = criterion(output, target)
-                    loss.backward()
-                    optimizer.step()
+            for batch_idx, (data, target) in enumerate(train_loader):
+                start_data_loading_time = time.perf_counter()
+                data, target = data.to(device), target.to(device)
+                end_data_loading_time = time.perf_counter()
+                data_loading_time += end_data_loading_time - start_data_loading_time
 
+                optimizer.zero_grad()
+                with record_function("model_forward"):
+                    output = model(data)
+                loss = criterion(output, target)
+                with record_function("model_backward"):
+                    loss.backward()
+                optimizer.step()
+
+                epoch_end_time = time.perf_counter()
+                total_epoch_time = epoch_end_time - epoch_start_time
+
+        print(f'Epoch {epoch} Complete: \n'
+                    f'\tData-Loading Time: {data_loading_time:.2f} seconds\n'
+                    f'\tTotal Epoch Time: {total_epoch_time:.2f} seconds\n')
         # Save profile
         prof.export_chrome_trace(f"trace_epoch_{epoch}.json")
 

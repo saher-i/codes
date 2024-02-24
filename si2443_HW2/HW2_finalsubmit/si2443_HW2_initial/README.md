@@ -1,6 +1,6 @@
-Step 1: Download si2443_Lab2.tar.gz and untar it using the following command:
+Step 1: Download si2443_Lab2.zip and unzip it using the following command:
 ```
-tar -xzf si2443_Lab2.tar.gz
+unzip si2443_Lab2.zip
 ```
 Step 2: Install the required dependencies : 
 

@@ -264,9 +264,9 @@ def main():
     print()
     print("*" * 100)
     print()
-    print("Running C5 on CPU") #NOT WORKING
-    print("device: cpu")
-    c5(train_dataset, args, workers=8, dev="cpu")
+    #print("Running C5 on CPU") #Does Not Run on CPU
+    #print("device: cpu")
+    #c5(train_dataset, args, workers=8, dev="cpu")
 
 
 if __name__ == "__main__":

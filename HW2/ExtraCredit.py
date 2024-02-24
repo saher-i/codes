@@ -266,7 +266,7 @@ def main():
     print()
     print("Running C5 on CPU") #NOT WORKING
     print("device: cpu")
-    #c5(train_dataset, args, workers=8, dev="cpu")
+    c5(train_dataset, args, workers=8, dev="cpu")
 
 
 if __name__ == "__main__":

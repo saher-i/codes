@@ -38,11 +38,11 @@ vecadd00 : vecadd.cu vecaddKernel.h vecaddKernel00.o timer.o
 	${NVCC} $< vecaddKernel00.o -o $@ $(LIB) timer.o $(OPTIONS)
 
 #######################################################################
-vecaddKernel01.o : vecaddKernel00.cu
-    ${NVCC} $< -c -o $@ $(OPTIONS)
+vecaddKernel01.o : vecaddKernel01.cu
+	${NVCC} $< -c -o $@ $(OPTIONS)
 
 vecadd01 : vecadd.cu vecaddKernel.h vecaddKernel01.o timer.o
-    ${NVCC} $< vecaddKernel01.o -o $@ $(LIB) timer.o $(OPTIONS)
+	${NVCC} $< vecaddKernel01.o -o $@ $(LIB) timer.o $(OPTIONS)
 
 #######################################################################
 ### vecaddKernel01.o : vecaddKernel01.cu

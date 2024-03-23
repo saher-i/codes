@@ -45,13 +45,6 @@ vecaddKernel01.o : vecaddKernel01.cu
 vecadd01 : vecadd.cu vecaddKernel.h vecaddKernel01.o timer.o
 	${NVCC} $< vecaddKernel01.o -o $@ $(LIB) timer.o $(OPTIONS)
 
-#######################################################################
-### vecaddKernel01.o : vecaddKernel01.cu
-###	${NVCC} $< -c -o $@ $(OPTIONS)
-###
-### vecadd01 : vecadd.cu vecaddKernel.h vecaddKernel01.o timer.o
-###	${NVCC} $< vecaddKernel01.o -o $@ $(LIB) timer.o $(OPTIONS)
-
 
 #######################################################################
 ## Provided Kernel

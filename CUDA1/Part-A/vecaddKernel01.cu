@@ -11,13 +11,13 @@
 /// without using coalesced memory access.
 /// 
 
-__global__ void AddVectors(const float* A, const float* B, float* B, int N)
+__global__ void AddVectors(const float* A, const float* B, float* C, int N)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x; // Unique grid index of a thread
     int stride = blockDim.x * gridDim.x; // Total number of threads in the grid
     
     for (int i = idx; i < N; i += stride) {
-        B[i] = A[i] + B[i];
+        C[i] = A[i] + B[i];
     }
 }
 

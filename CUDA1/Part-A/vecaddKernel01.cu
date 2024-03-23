@@ -18,7 +18,7 @@ __global__ void AddVectors(float* A, float* B, float* C, int N)
 
     for (int i = idx; i < N; i += stride) {
         B[i] = A[i] + B[i];
+        C[i] = B[i];
     }
-    C = A;
 }
 

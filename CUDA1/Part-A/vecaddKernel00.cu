@@ -11,10 +11,15 @@
 /// without using coalesced memory access.
 ///
 
-/*
+
 
 __global__ void AddVectors(const float* A, const float* B, float* C, int N)
 {
+  int idx = blockIdx.x * blockDim.x + threadIdx.x; // Unique grid index of a thread
+    if(idx < N) {
+        C[idx] = A[idx] + B[idx];
+    }
+  /*
     int blockStartIndex  = blockIdx.x * blockDim.x * N;
     int threadStartIndex = blockStartIndex + (threadIdx.x * N);
     int threadEndIndex   = threadStartIndex + N;
@@ -23,6 +28,7 @@ __global__ void AddVectors(const float* A, const float* B, float* C, int N)
     for( i=threadStartIndex; i<threadEndIndex; ++i ){
         C[i] = A[i] + B[i];
     }
+  */
 }
 
-*/
+

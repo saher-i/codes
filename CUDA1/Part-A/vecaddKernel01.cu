@@ -13,6 +13,12 @@
 
 __global__ void AddVectors(const float* A, const float* B, float* C, int N)
 {
+    int tid = (blockDim.x * blockIdx.x) + threadIdx.x;
+
+  if (tid < N) {
+    C[tid] = A[tid] + B[tid];
+  }
+/*
     int idx = blockIdx.x * blockDim.x + threadIdx.x; // Unique grid index of a thread
     int stride = blockDim.x * gridDim.x; // Total number of threads in the grid
     
@@ -20,7 +26,7 @@ __global__ void AddVectors(const float* A, const float* B, float* C, int N)
         C[idx] = A[idx] + B[idx];
         idx = idx + stride;
     }
-/*
+
     for (int i = idx; i < N; i += stride) {
         C[i] = A[i] + B[i];
         __syncthreads();

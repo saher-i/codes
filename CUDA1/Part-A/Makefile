@@ -16,8 +16,8 @@ OPTIONS   :=  -O3
 #--maxrregcount=100 --ptxas-options -v 
 
 TAR_FILE_NAME  := Part-A.tar
-EXECS :=  vecadd00 matmult00 vecadd01
-#EXECS :=  vecadd01
+#EXECS :=  vecadd00 matmult00 vecadd01
+EXECS :=  vecadd01
 all:$(EXECS)
 
 #######################################################################
@@ -33,11 +33,11 @@ timer.o : timer.cu timer.h
 	${NVCC} $< -c -o $@ $(OPTIONS)
 
 #######################################################################
-vecaddKernel00.o : vecaddKernel00.cu
-	${NVCC} $< -c -o $@ $(OPTIONS)
+#vecaddKernel00.o : vecaddKernel00.cu
+#	${NVCC} $< -c -o $@ $(OPTIONS)
 
-vecadd00 : vecadd.cu vecaddKernel.h vecaddKernel00.o timer.o
-	${NVCC} $< vecaddKernel00.o -o $@ $(LIB) timer.o $(OPTIONS)
+#vecadd00 : vecadd.cu vecaddKernel.h vecaddKernel00.o timer.o
+#	${NVCC} $< vecaddKernel00.o -o $@ $(LIB) timer.o $(OPTIONS)
 
 #######################################################################
 vecaddKernel01.o : vecaddKernel01.cu

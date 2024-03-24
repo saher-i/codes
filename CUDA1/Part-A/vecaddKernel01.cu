@@ -12,7 +12,19 @@
 ///
 
 __global__ void AddVectors(const float *A, const float *B, float *C, int N) {
-    
+  
+        // Calculate the global thread index
+    int index = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // Each thread computes 'N' elements
+    int start = index * N;
+    int end = start + N;
+
+    // Perform the addition for 'N' elements assigned to this thread
+    for(int i = start; i < end; i++) {
+        C[i] = A[i] + B[i];
+    }
+    /*
     int blockStartIndex  = blockIdx.x * blockDim.x * N;
     int threadStartIndex = (blockStartIndex + (threadIdx.x * N))%N;
     int threadEndIndex   = threadStartIndex + N;
@@ -21,7 +33,7 @@ __global__ void AddVectors(const float *A, const float *B, float *C, int N) {
     for( i=threadStartIndex; i<threadEndIndex; ++i ){
         C[i] = A[i] + B[i];
     }
-
+*/
     /*
     int idx = (blockDim.x * blockIdx.x + threadIdx.x);
     if (idx < N) {

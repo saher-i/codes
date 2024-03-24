@@ -12,8 +12,19 @@
 ///
 
 __global__ void AddVectors(const float *A, const float *B, float *C, int N) {
+    
+    int blockStartIndex  = blockIdx.x * blockDim.x * N;
+    int threadStartIndex = (blockStartIndex + (threadIdx.x * N))%N;
+    int threadEndIndex   = threadStartIndex + N;
+    int i;
+
+    for( i=threadStartIndex; i<threadEndIndex; ++i ){
+        C[i] = A[i] + B[i];
+    }
+
+    /*
     int idx = (blockDim.x * blockIdx.x + threadIdx.x);
     if (idx < N) {
             C[idx] = A[idx] + B[idx];
-    }
+    }*/
 }

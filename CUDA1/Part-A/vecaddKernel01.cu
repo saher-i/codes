@@ -11,12 +11,9 @@
 /// without using coalesced memory access.
 ///
 
-__global__ void AddVectors(const float *A, const float *B, float *C, int numElements) {
-    int startIdx = (blockDim.x * blockIdx.x + threadIdx.x) * 32; // Each thread starts at a different base index
-    if (startIdx < numElements) {
-        for (int j = 0; j < 32 && (startIdx + j) < numElements; ++j) { // Ensure we don't go out of bounds
-            int idx = startIdx + j;
+__global__ void AddVectors(const float *A, const float *B, float *C, int N) {
+    int idx = blockDim.x * blockIdx.x + threadIdx.x;
+    if (idx < N) {
             C[idx] = A[idx] + B[idx];
-        }
     }
 }

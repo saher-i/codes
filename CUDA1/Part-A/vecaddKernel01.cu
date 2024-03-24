@@ -17,11 +17,11 @@ __global__ void AddVectors(const float *A, const float *B, float *C, int N) {
     int index = blockIdx.x * blockDim.x + threadIdx.x;
 
     // Each thread computing N elements
-    int startindex = index * N;
-    int endindex = startindex + N;
+    //int startindex = index * N;
+    //int endindex = startindex + N;
 
     // Addition for 'N' elements assigned to a thread
-    for(int i = startindex; i < endindex; i++) {
+    for(int i = index; i < N; i+(blockDim.x * gridDim.x)) {
         C[i] = A[i] + B[i];
     }
 }

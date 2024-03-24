@@ -14,16 +14,16 @@
 __global__ void AddVectors(const float *A, const float *B, float *C, int N) {
   
     int index = blockIdx.x * blockDim.x + threadIdx.x;
-    for(int i = 0; i < N; i = i+blockDim.x) {
-        C[index] = A[index] + B[index];
-    }
-/*
-    for(int i = index; i < N; i = i+blockDim.x) {
-        C[i] = A[i] + B[i];
-    }
+   //  for(int i = 0; i < N; i++) {
+   //      C[index] = A[index] + B[index];
+   // }
+
+    // for(int i = index; i < N; i = i+blockDim.x) {
+    //     C[i] = A[i] + B[i];
+    // }
 
     for(int i = index; i < blockDim.x*gridDim.x*N; i = i+N) {
         C[i] = A[i] + B[i];
     }
-*/
+
 }

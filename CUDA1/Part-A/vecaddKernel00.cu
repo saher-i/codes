@@ -20,7 +20,7 @@ __global__ void AddVectors(const float* A, const float* B, float* C, int N)
     int threadEndIndex   = threadStartIndex + N;
     int i;
 
-    for( i=threadStartIndex; i<threadEndIndex; ++i ){
+    for( i=threadStartIndex; i<N; i = i+blockDim.x ){
         C[i] = A[i] + B[i];
     }
 }

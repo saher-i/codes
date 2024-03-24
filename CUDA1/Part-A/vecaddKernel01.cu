@@ -9,16 +9,14 @@
 ///
 /// This Kernel adds two Vectors A and B in C on GPU
 /// without using coalesced memory access.
-/// 
+///
 
-__global__ void AddVectors(const float* A, const float* B, float* C, int N)
-{
-    int startidx = ((blockIdx.x * blockDim.x) + threadIdx.x)*32; // Unique grid index of a thread
-    if(startidx < N) {
-        for (int j = 0; j < 32 && (startIdx + j) < N; ++j){
+__global__ void vectorAddMultiple(const float *A, const float *B, float *C, int numElements) {
+    int startIdx = (blockDim.x * blockIdx.x + threadIdx.x) * 32; // Each thread starts at a different base index
+    if (startIdx < numElements) {
+        for (int j = 0; j < 32 && (startIdx + j) < numElements; ++j) { // Ensure we don't go out of bounds
             int idx = startIdx + j;
             C[idx] = A[idx] + B[idx];
         }
     }
 }
-

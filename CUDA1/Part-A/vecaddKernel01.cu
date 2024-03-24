@@ -13,9 +13,12 @@
 
 __global__ void AddVectors(const float* A, const float* B, float* C, int N)
 {
-    int idx = (blockIdx.x * blockDim.x) + threadIdx.x; // Unique grid index of a thread
+    int startidx = (blockIdx.x * blockDim.x) + threadIdx.x; // Unique grid index of a thread
     if(idx < N) {
-        C[idx] = A[idx] + B[idx];
+        for (int j = 0; j < 32 && (startIdx + j) < N; ++j){
+            int idx = startIdx + j;
+            C[idx] = A[idx] + B[idx];
+        }
     }
 }
 

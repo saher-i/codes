@@ -75,7 +75,8 @@ __global__ void MatMulKernel(Matrix A, Matrix B, Matrix C){
     // Do an inproduct of one row of shared_A and one col of shared_B
     // computing one Cvalue by accumulation
 #pragma unroll
-    for(int e=0; e<BLOCK_SIZE; ++e)
+    int e;
+    for(e=0; e<BLOCK_SIZE; ++e)
       // Cvalue[0] += shared_A[thread_row][e] * shared_B[e][thread_col];
     
     // Perform the multiplication and add to the accumulator (Cvalue)

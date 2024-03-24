@@ -12,7 +12,7 @@
 ///
 
 __global__ void AddVectors(const float *A, const float *B, float *C, int N) {
-    int idx = blockDim.x * blockIdx.x + threadIdx.x;
+    int idx = (blockDim.x * blockIdx.x + threadIdx.x)%N;
     if (idx < N) {
             C[idx] = A[idx] + B[idx];
     }

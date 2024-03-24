@@ -16,8 +16,8 @@ OPTIONS   :=  -O3
 #--maxrregcount=100 --ptxas-options -v 
 
 TAR_FILE_NAME  := Part-A.tar
-#EXECS :=  vecadd00 matmult00 vecadd01
-EXECS :=  vecadd01
+EXECS :=  vecadd00 matmult00 vecadd01
+#EXECS :=  vecadd01
 all:$(EXECS)
 
 #######################################################################

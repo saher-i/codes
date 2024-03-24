@@ -134,15 +134,15 @@ int main(int argc, char** argv)
     // Copy result from device memory to host memory
     error = cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
     if (error != cudaSuccess) Cleanup(false);
-/*
+
     // Verify & report result
     for (i = 0; i < N; ++i) {
         float val = h_C[i];
-        if (fabs(val - N) > 1e-5)
+        if (fabs(val - N) > 1e-7)
             break;
     }
     printf("Test %s \n", (i == N) ? "PASSED" : "FAILED");
-*/
+
     // Clean up and exit.
     Cleanup(true);
 }

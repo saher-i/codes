@@ -15,11 +15,14 @@ __global__ void AddVectors(const float *A, const float *B, float *C, int N) {
   
     // Global thread index calculation
     int index = blockIdx.x * blockDim.x + threadIdx.x;
-
-    for(int i = index; i < N; i = i+blockDim.x) {
+    for(int i = 0; i < blockDim.x*gridDim.x*N; i++) {
         C[i] = A[i] + B[i];
     }
 /*
+    for(int i = index; i < N; i = i+blockDim.x) {
+        C[i] = A[i] + B[i];
+    }
+
     for(int i = index; i < blockDim.x*gridDim.x*N; i = i+N) {
         C[i] = A[i] + B[i];
     }

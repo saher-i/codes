@@ -11,7 +11,7 @@
 /// without using coalesced memory access.
 /// 
 
-__global__ void AddVectorsModified(const float* A, const float* B, float* C, int N)
+__global__ void AddVectors(const float* A, const float* B, float* C, int N)
 {
     int idx = (blockIdx.x * blockDim.x) + threadIdx.x; // Unique grid index of a thread
     if(idx < N) {

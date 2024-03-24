@@ -76,13 +76,15 @@ __global__ void MatMulKernel(Matrix A, Matrix B, Matrix C){
     // computing one Cvalue by accumulation
 #pragma unroll
     for(int e=0; e<BLOCK_SIZE; ++e)
-      // Cvalue += shared_A[thread_row][e] * shared_B[e][thread_col];
+       Cvalue[0] += shared_A[thread_row][e] * shared_B[e][thread_col];
     
     // Perform the multiplication and add to the accumulator (Cvalue)
+    /*
     Cvalue[0] += shared_A[thread_row][e] * shared_B[e][thread_col];  // Top-left element of the 2x2 block
     Cvalue[1] += shared_A[thread_row][e] * shared_B[e][thread_col + 1];  // Top-right element of the 2x2 block
     Cvalue[2] += shared_A[thread_row + 1][e] * shared_B[e][thread_col];  // Bottom-left element of the 2x2 block
     Cvalue[3] += shared_A[thread_row + 1][e] * shared_B[e][thread_col + 1];  // Bottom-right element of the 2x2 block
+    */
     // Synchronize to ensure all Cvalues have been incremented
     // before reading in the next shared_A AND shared_B BLOCKS
     __syncthreads();

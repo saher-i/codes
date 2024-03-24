@@ -21,7 +21,7 @@ __global__ void AddVectors(const float *A, const float *B, float *C, int N) {
     //int endindex = startindex + N;
 
     // Addition for 'N' elements assigned to a thread
-    for(int i = index; i < blockDim.x*gridDim.x*N; i = i+blockDim.x) {
+    for(int i = index; i < blockDim.x*gridDim.x*N; i = i+N) {
         C[i] = A[i] + B[i];
     }
 }
